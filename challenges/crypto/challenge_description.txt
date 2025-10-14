@@ -1,0 +1,12 @@
+🧩 Challenge Name: MD5 Collision
+💀 Category: Cryptography
+📜 Description:
+Your mission is to find two *different* strings that result in the same MD5 hash.
+
+Rules:
+1. The strings must not be identical.
+2. They must produce identical MD5 hashes.
+3. Run the provided Python script and submit your two strings to reveal the flag.
+
+Example:
+check_collision("a", "b")

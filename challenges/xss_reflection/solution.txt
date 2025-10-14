@@ -1,0 +1,13 @@
+Solution: Triggering a simple alert
+
+
+1) Open challenge.html
+2) Use the search box and paste: <img src=x onerror=alert(1)>
+3) Submit — the reflected content will be injected into the page and the alert will fire.
+
+
+Flag: FLAG{reflected_xss_easy}
+
+
+Notes for maintainers:
+- This intentionally vulnerable page demonstrates client-side reflection. To create a harder challenge, modify the page to filter common substrings and require an attribute-break payload or use Content Security Policy (CSP) to force non-script triggers.

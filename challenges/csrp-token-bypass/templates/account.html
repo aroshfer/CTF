@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Account</title>
+</head>
+
+<body>
+    <h1>Welcome {{ user }}</h1>
+    <p>Balance: {{ balance }}</p>
+    <p>CSRF token (server rendered): <code>{{ csrf_token }}</code></p>
+    <p><a href="/transfer">Transfer funds</a></p>
+</body>
+
+</html>
