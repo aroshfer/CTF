@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Admin - Players</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #0b0c17;
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h2 {
+            color: #0cf;
+            text-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+            font-size: 2rem;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #0cf;
+            font-weight: bold;
+            padding: 8px 15px;
+            background-color: #151728;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: #fff;
+            background-color: #0aa;
+            box-shadow: 0 0 10px #0cf;
+        }
+
+        /* Charts */
+        .charts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .chart-box {
+            flex: 1;
+            min-width: 300px;
+            background-color: #151728;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .chart-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .chart-box h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #0cf;
+        }
+
+        canvas {
+            background-color: #10121e;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #10121e;
+            color: #0cf;
+            font-weight: 700;
+            border-bottom: 2px solid #0cf;
+        }
+
+        tr {
+            background-color: #151728;
+            transition: 0.3s;
+        }
+
+        tr:hover {
+            background-color: rgba(0, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .charts {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Player Management</h2>
+            <a class="back-link" href="admin_panel.html">⬅ Back to Admin Panel</a>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts">
+            <div class="chart-box">
+                <h3>Top 5 Players by Points</h3>
+                <canvas id="topPlayersChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h3>Player Registrations Over Time</h3>
+                <canvas id="registrationsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Players Table -->
+        <table id="playersTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Total Points</th>
+                    <th>Registered At</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        fetch('php/admin_get_players.php')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector('#playersTable tbody');
+                tbody.innerHTML = '';
+
+                // Table
+                data.forEach(p => {
+                    tbody.innerHTML += `
+                        <tr>
+                            <td>${p.id}</td>
+                            <td>${p.username}</td>
+                            <td>${p.email}</td>
+                            <td>${p.total_points}</td>
+                            <td>${p.registered_at}</td>
+                        </tr>
+                    `;
+                });
+
+                // Charts
+                const topPlayers = [...data].sort((a,b) => b.total_points - a.total_points).slice(0,5);
+                const topNames = topPlayers.map(p => p.username);
+                const topPoints = topPlayers.map(p => p.total_points);
+
+                const registrationCount = {};
+                data.forEach(p => {
+                    const date = p.registered_at.split(' ')[0];
+                    registrationCount[date] = (registrationCount[date] || 0) + 1;
+                });
+
+                const dates = Object.keys(registrationCount);
+                const counts = Object.values(registrationCount);
+
+                // Top Players Chart
+                new Chart(document.getElementById('topPlayersChart'), {
+                    type: 'bar',
+                    data: {
+                        labels: topNames,
+                        datasets: [{
+                            label: 'Points',
+                            data: topPoints,
+                            backgroundColor: 'rgba(0, 255, 255, 0.6)',
+                            borderColor: 'rgba(0, 255, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: { y: { beginAtZero: true } },
+                        plugins: { legend: { display: false } }
+                    }
+                });
+
+                // Registrations Chart
+                new Chart(document.getElementById('registrationsChart'), {
+                    type: 'line',
+                    data: {
+                        labels: dates,
+                        datasets: [{
+                            label: 'Registrations',
+                            data: counts,
+                            borderColor: '#0cf',
+                            backgroundColor: 'rgba(0,255,255,0.2)',
+                            fill: true,
+                            tension: 0.3,
+                            pointBackgroundColor: '#0cf'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+
+</html>

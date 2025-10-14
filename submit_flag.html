@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Submit Flag</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <h2>Submit CTF Flag</h2>
+  <select id="challenge"></select>
+  <input id="flag" placeholder="Enter your flag">
+  <button onclick="submitFlag()">Submit</button>
+  <p id="result"></p>
+
+  <script>
+    const user_id = localStorage.getItem("user_id");
+    async function loadChallenges() {
+      const res = await fetch("php/get_challenges.php");
+      const challenges = await res.json();
+      const select = document.getElementById("challenge");
+      challenges.forEach(ch => {
+        const opt = document.createElement("option");
+        opt.value = ch.id;
+        opt.textContent = ch.title;
+        select.appendChild(opt);
+      });
+    }
+    async function submitFlag() {
+      const id = document.getElementById("challenge").value;
+      const flag = document.getElementById("flag").value.trim();
+      const res = await fetch("php/submit_flag.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, flag, user_id })
+      });
+      const data = await res.json();
+      const result = document.getElementById("result");
+      result.textContent = data.result === "correct" ? "✅ Correct!" : "❌ Wrong!";
+    }
+    loadChallenges();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign Up - Cyber CTF</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Create Admin Account</h2>
+    <div class="input-group">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+    </div>
+    <button id="adminSignupBtn">Register Admin</button>
+    <p id="msg"></p>
+    <p>Already an admin? <a href="admin_login.html">Login here</a></p>
+  </div>
+
+  <script>
+    document.getElementById("adminSignupBtn").addEventListener("click", async () => {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const msg = document.getElementById("msg");
+
+      if (!username || !password) {
+        msg.style.color = "orange";
+        msg.textContent = "⚠️ Please fill in both fields!";
+        return;
+      }
+
+      try {
+        const response = await fetch("php/admin_register.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+          msg.style.color = "#00ff88";
+          msg.textContent = "✅ Admin registered successfully!";
+          setTimeout(() => window.location.href = "admin_login.html", 1500);
+        } else {
+          msg.style.color = "red";
+          msg.textContent = "❌ " + data.message;
+        }
+      } catch (error) {
+        msg.style.color = "red";
+        msg.textContent = "❌ Server error. Try again later.";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
