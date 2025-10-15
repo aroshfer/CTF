@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Sign Up - Cyber CTF</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 40px 50px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background-color: #1e293b;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+
+    button {
+      background: #00d4ff;
+      color: #111827;
+      border: none;
+      padding: 12px 20px;
+      width: 95%;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background: #38bdf8;
+      transform: scale(1.05);
+    }
+
+    p a {
+      color: #00d4ff;
+      text-decoration: none;
+    }
+
+    #msg {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Admin Account</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="adminSignupBtn">Register Admin</button>
+    <p id="msg"></p>
+    <p>Already an admin? <a href="admin_login.html">Login here</a></p>
+  </div>
+
+  <script>
+    document.getElementById("adminSignupBtn").addEventListener("click", async () => {
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const msg = document.getElementById("msg");
+
+      if (!username || !password) {
+        msg.style.color = "orange";
+        msg.textContent = "⚠️ Please fill in both fields!";
+        return;
+      }
+
+      try {
+        const response = await fetch("../php/admin_register.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+          msg.style.color = "#00ff88";
+          msg.textContent = "✅ Admin registered successfully!";
+          setTimeout(() => window.location.href = "admin_login.html", 1500);
+        } else {
+          msg.style.color = "red";
+          msg.textContent = "❌ " + data.message;
+        }
+      } catch (error) {
+        msg.style.color = "red";
+        msg.textContent = "❌ Server error. Try again later.";
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>

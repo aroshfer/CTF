@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Result</title>
+</head>
+
+<body>
+    <h1>Transfer Result</h1>
+    {% if flag %}
+    <p>Transfer to attacker successful. Flag: <code>{{ flag }}</code></p>
+    {% else %}
+    <p>Transfer completed.</p>
+    {% endif %}
+</body>
+
+</html>

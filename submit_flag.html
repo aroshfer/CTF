@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Flag</title>
+  <style>
+    /* ==== Global Reset ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at top left, #0a0f24, #000);
+      color: #fff;
+    }
+
+    .container {
+      background: rgba(20, 25, 45, 0.9);
+      border: 2px solid #00ffc6;
+      border-radius: 16px;
+      box-shadow: 0 0 25px rgba(0, 255, 198, 0.3);
+      padding: 40px 50px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .container:hover {
+      box-shadow: 0 0 40px rgba(0, 255, 198, 0.5);
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #00ffc6;
+      text-shadow: 0 0 10px #00ffc6;
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      border: 1px solid #00ffc6;
+      border-radius: 8px;
+      background-color: #111828;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: #00ffa2;
+      box-shadow: 0 0 8px #00ffa2;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(90deg, #00ffc6, #007cff);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px #00ffc6;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    /* ✅ Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 25px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Submit CTF Flag</h2>
+    <select id="challenge"></select>
+    <input id="flag" placeholder="Enter your flag">
+    <button onclick="submitFlag()">Submit</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const user_id = localStorage.getItem("user_id");
+
+    async function loadChallenges() {
+      const res = await fetch("php/get_challenges.php");
+      const challenges = await res.json();
+      const select = document.getElementById("challenge");
+      challenges.forEach(ch => {
+        const opt = document.createElement("option");
+        opt.value = ch.id;
+        opt.textContent = ch.title;
+        select.appendChild(opt);
+      });
+    }
+
+    async function submitFlag() {
+      const id = document.getElementById("challenge").value;
+      const flag = document.getElementById("flag").value.trim();
+      const res = await fetch("php/submit_flag.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, flag, user_id })
+      });
+      const data = await res.json();
+      const result = document.getElementById("result");
+      result.textContent = data.result === "correct" ? "✅ Correct!" : "❌ Wrong!";
+      result.style.color = data.result === "correct" ? "#00ffc6" : "#ff3b3b";
+    }
+
+    loadChallenges();
+  </script>
+</body>
+
+</html>

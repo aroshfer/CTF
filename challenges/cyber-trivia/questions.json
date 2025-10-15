@@ -1,0 +1,17 @@
+[
+    {
+        "question": "What does the abbreviation 'SQL' stand for in cybersecurity context?",
+        "answer": "Structured Query Language",
+        "hint": "It's a language used to query databases."
+    },
+    {
+        "question": "Which protocol is used to securely transfer files over SSH?",
+        "answer": "SFTP",
+        "hint": "It starts with 'S' and uses SSH."
+    },
+    {
+        "question": "What is the common abbreviation for a Distributed Denial of Service attack?",
+        "answer": "DDoS",
+        "hint": "It overloads a server from multiple sources."
+    }
+]

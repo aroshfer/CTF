@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Trivia Challenge</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Cyber Trivia Challenge</h1>
+    <p>Answer the questions correctly to reveal the flag!</p>
+
+    <div id="question-container">
+        <p id="question">Loading question...</p>
+        <input type="text" id="answer" placeholder="Enter your answer">
+        <br>
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="hint"></p>
+        <p id="flag"></p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

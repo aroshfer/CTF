@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SQLi CTF — Deep Dive</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; background:#0f1724; color:#e6eef8; padding:24px; }
+    .card { background:#111827; padding:16px; border-radius:8px; margin-bottom:12px; box-shadow: 0 6px 18px rgba(0,0,0,0.6);}
+    input, textarea, button { font-size:14px; padding:8px; margin:6px 0; width:100%; box-sizing:border-box; border-radius:6px; border:1px solid #334155; background:#0b1220; color:#e6eef8;}
+    label { font-weight:bold; display:block; margin-top:8px; color:#9fb0c9; }
+    .row { display:flex; gap:12px; }
+    .col { flex:1; }
+    a { color:#7dd3fc; text-decoration:none; }
+    pre { background:#031026; padding:12px; border-radius:6px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <h1>SQL Injection CTF — Deep Dive</h1>
+  <p>Use the forms below to interact with the server. The flag is stored in <code>users.secret</code> for the <code>admin</code> user.</p>
+
+  <div class="card">
+    <h3>Search (GET /search?q=)</h3>
+    <form id="searchForm" action="/search" method="get" target="_blank">
+      <label for="q">Query</label>
+      <input id="q" name="q" placeholder="e.g. alice" />
+      <button type="submit">Search</button>
+    </form>
+    <small>Tip: /search has a naive WAF blocking obvious keywords.</small>
+  </div>
+
+  <div class="card">
+    <h3>Post Comment (POST /comment)</h3>
+    <form id="commentForm" action="/comment" method="post" target="_blank">
+      <label for="username">Username</label>
+      <input id="username" name="username" placeholder="your-username" />
+      <label for="body">Body</label>
+      <textarea id="body" name="body" rows="4" placeholder="your comment..."></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+    <small>Stored safely, but /recent uses stored username unsafely (second-order).</small>
+  </div>
+
+  <div class="card row">
+    <div class="col">
+      <h3>Recent Comments (GET /recent)</h3>
+      <p><a href="/recent" target="_blank">Open /recent</a></p>
+    </div>
+    <div class="col">
+      <h3>Profile (GET /profile?id=)</h3>
+      <form action="/profile" method="get" target="_blank">
+        <label for="pid">id</label>
+        <input id="pid" name="id" placeholder="e.g. 1" />
+        <button type="submit">View Profile</button>
+      </form>
+      <small>Try boolean/error-based injections here.</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Cookie-based (GET /leak-cookie)</h3>
+    <p>To test cookie-vector: set a cookie named <code>uid</code> in your browser (DevTools → Application → Cookies) then click below.</p>
+    <p><a href="/leak-cookie" target="_blank">Open /leak-cookie</a></p>
+  </div>
+
+  <div class="card row">
+    <div class="col">
+      <h3>Hints</h3>
+      <p><a href="/hint?level=1" target="_blank">Hint level 1</a> • <a href="/hint?level=2" target="_blank">Hint level 2</a> • <a href="/hint?level=3" target="_blank">Hint level 3</a></p>
+    </div>
+    <div class="col">
+      <h3>Quick checks</h3>
+      <ul>
+        <li><a href="/search?q=alice" target="_blank">/search?q=alice</a></li>
+        <li><a href="/profile?id=1" target="_blank">/profile?id=1</a></li>
+        <li><a href="/recent" target="_blank">/recent</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <footer style="margin-top:18px;color:#9fb0c9;font-size:13px;">
+    <p>Warning: this app intentionally contains SQL injection vulnerabilities for learning/CTF purposes only. Do not expose to public internet.</p>
+  </footer>
+</body>
+</html>

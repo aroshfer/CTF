@@ -1,0 +1,1 @@
+FLAG{stack_overflow_learning_safe_lab}
