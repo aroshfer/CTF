@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
 "name": "capture-the-cookie",
 "version": "1.0.0",
@@ -9,4 +10,17 @@
 "cookie-parser": "^1.4.6",
 "express": "^4.18.2"
 }
+=======
+{
+"name": "capture-the-cookie",
+"version": "1.0.0",
+"main": "app.js",
+"scripts": {
+"start": "node app.js"
+},
+"dependencies": {
+"cookie-parser": "^1.4.6",
+"express": "^4.18.2"
+}
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b
 }

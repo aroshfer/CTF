@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- save this as seed.sql and run: sqlite3 ctf.db < seed.sql
 CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, secret TEXT);
 CREATE TABLE comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, body TEXT);
@@ -7,3 +8,14 @@ INSERT INTO users (username, secret) VALUES ('bob','nothing-to-see');
 INSERT INTO users (username, secret) VALUES ('admin','FLAG{sql_injection_deep_dive}');
 
 INSERT INTO comments (username, body) VALUES ('alice','Hello world');
+=======
+-- save this as seed.sql and run: sqlite3 ctf.db < seed.sql
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, secret TEXT);
+CREATE TABLE comments (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, body TEXT);
+
+INSERT INTO users (username, secret) VALUES ('alice','no-flag-here');
+INSERT INTO users (username, secret) VALUES ('bob','nothing-to-see');
+INSERT INTO users (username, secret) VALUES ('admin','FLAG{sql_injection_deep_dive}');
+
+INSERT INTO comments (username, body) VALUES ('alice','Hello world');
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* =====================
    Global Reset
 ===================== */
@@ -126,3 +127,133 @@ p a:hover {
         padding: 30px 20px;
     }
 }
+=======
+/* =====================
+   Global Reset
+===================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* =====================
+   Body & Background
+===================== */
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #1e1e2f, #181c24);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+/* =====================
+   Main Container
+===================== */
+.container {
+    background: #23293a;
+    padding: 40px 50px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    text-align: center;
+    width: 350px;
+    transition: 0.3s;
+}
+
+.container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
+}
+
+/* =====================
+   Headings
+===================== */
+.container h2 {
+    margin-bottom: 30px;
+    color: #ffcc00;
+    font-size: 2rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+/* =====================
+   Input Group
+===================== */
+.input-group input {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: #2a3140;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.input-group input:focus {
+    background: #333a52;
+}
+
+/* =====================
+   Buttons
+===================== */
+button {
+    width: 100%;
+    padding: 12px 15px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #ffcc00;
+    color: #181c24;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #e6b800;
+}
+
+/* =====================
+   Paragraphs & Links
+===================== */
+p {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+p a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* =====================
+   Message Text
+===================== */
+#msg {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* =====================
+   Responsive
+===================== */
+@media (max-width: 400px) {
+    .container {
+        width: 90%;
+        padding: 30px 20px;
+    }
+}
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b

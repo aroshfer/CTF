@@ -482,3 +482,476 @@
 </body>
 
 </html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #0b0c17;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: #151728;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.2);
+        }
+
+        nav h1 {
+            color: #0cf;
+            font-size: 1.8rem;
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        }
+
+        nav .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #0cf;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav .nav-links a:hover {
+            color: #0aa;
+            text-shadow: 0 0 8px #0cf;
+        }
+
+        /* Container */
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 30px auto;
+        }
+
+        /* Dashboard Cards */
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 200px;
+            background-color: #151728;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        }
+
+        .card h3 {
+            color: #0cf;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 50px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 12px 15px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #10121e;
+            color: #0cf;
+            font-weight: 700;
+            border-bottom: 2px solid #0cf;
+        }
+
+        tr {
+            background: #151728;
+            transition: 0.3s;
+        }
+
+        tr:hover {
+            background: rgba(0, 255, 255, 0.1);
+        }
+
+        td button {
+            background: #0cf;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        td button:hover {
+            background: #0aa;
+            color: #fff;
+            box-shadow: 0 0 10px #0cf;
+            transform: scale(1.05);
+        }
+
+        /* Forms */
+        form {
+            background-color: #151728;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            margin-bottom: 40px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #0cf;
+        }
+
+        form input,
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            background: #10121e;
+            color: #fff;
+        }
+
+        form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        form button {
+            background: #0cf;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            color: #0b0c17;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        form button:hover {
+            background: #0aa;
+            color: #fff;
+            box-shadow: 0 0 15px #0cf;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <h1>CTF Admin Panel</h1>
+        <div class="nav-links">
+            <a href="#challenges">Challenges</a>
+            <a href="admin_players.html">Players</a>
+            <a href="#submissions">Submissions</a>
+            <a href="#files">Files</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Dashboard Cards -->
+        <div class="cards">
+            <div class="card">
+                <h3>Total Challenges</h3>
+                <p id="totalChallenges">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Players</h3>
+                <p id="totalPlayers">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Submissions</h3>
+                <p id="totalSubmissions">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Files</h3>
+                <p id="totalFiles">0</p>
+            </div>
+        </div>
+
+        <!-- Add/Edit Challenge Form -->
+        <form id="challengeForm" action="php/add_challenges.php" method="post">
+            <input type="hidden" id="challenge_id" value="">
+            <label>Title:</label>
+            <input type="text" id="title" required>
+            <label>Category:</label>
+            <select id="category" required>
+                <option value="Web">Web</option>
+                <option value="Crypto">Crypto</option>
+                <option value="Forensics">Forensics</option>
+                <option value="Misc">Misc</option>
+            </select>
+            <label>Description:</label>
+            <textarea id="description" required></textarea>
+            <label>Flag:</label>
+            <input type="text" id="flag" required>
+            <label>Points:</label>
+            <input type="number" id="points" value="100" required>
+            <button type="submit">Save Challenge</button>
+        </form>
+
+        <!-- Challenges Table -->
+        <h3 id="challenges">All Challenges</h3>
+        <table id="challengesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Points</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Submissions Table -->
+        <h3 id="submissions">Submitted Flags</h3>
+        <table id="submissionsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Challenge</th>
+                    <th>Submitted Flag</th>
+                    <th>Correct</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- File Upload -->
+        <form id="fileUploadForm" enctype="multipart/form-data">
+            <h3 id="files">Upload Challenge File</h3>
+            <label>Select Challenge:</label>
+            <select id="fileChallenge" required></select>
+            <label>Select File:</label>
+            <input type="file" id="fileInput" required>
+            <button type="submit">Upload File</button>
+        </form>
+
+        <!-- Uploaded Files Table -->
+        <h3>Uploaded Files</h3>
+        <table id="filesTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Challenge</th>
+                    <th>Filename</th>
+                    <th>Download</th>
+                    <th>Uploaded At</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        // Dashboard totals
+        fetch('php/admin_get_totals.php')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('totalChallenges').textContent = data.challenges;
+                document.getElementById('totalPlayers').textContent = data.players;
+                document.getElementById('totalSubmissions').textContent = data.submissions;
+                document.getElementById('totalFiles').textContent = data.files;
+            });
+
+        // Load Challenges
+        function loadChallenges() {
+            fetch('php/admin_get_challenges.php')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector('#challengesTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(c => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${c.id}</td>
+                                <td>${c.title}</td>
+                                <td>${c.category}</td>
+                                <td>${c.points}</td>
+                                <td>${c.active == 1 ? 'Active' : 'Inactive'}</td>
+                                <td>
+                                    <button onclick="editChallenge(${c.id})">Edit</button>
+                                    <button onclick="toggleChallenge(${c.id}, ${c.active})">${c.active == 1 ? 'Deactivate' : 'Activate'}</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    loadFileChallenges();
+                });
+        }
+
+        // Load Submissions
+        function loadSubmissions() {
+            fetch('php/admin_get_submissions.php')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector('#submissionsTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(s => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${s.id}</td>
+                                <td>${s.user}</td>
+                                <td>${s.challenge_title}</td>
+                                <td>${s.submitted_flag}</td>
+                                <td>${s.correct == 1 ? 'Yes' : 'No'}</td>
+                                <td>${s.submitted_at}</td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+
+        // Add/Edit Challenge
+        document.getElementById('challengeForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('id', document.getElementById('challenge_id').value);
+            formData.append('title', document.getElementById('title').value);
+            formData.append('category', document.getElementById('category').value);
+            formData.append('description', document.getElementById('description').value);
+            formData.append('flag', document.getElementById('flag').value);
+            formData.append('points', document.getElementById('points').value);
+
+            fetch('php/admin_save_challenge.php', { method: 'POST', body: formData })
+                .then(res => res.text())
+                .then(data => {
+                    alert(data);
+                    document.getElementById('challengeForm').reset();
+                    loadChallenges();
+                });
+        });
+
+        function editChallenge(id) {
+            fetch('php/admin_get_challenge.php?id=' + id)
+                .then(res => res.json())
+                .then(c => {
+                    document.getElementById('challenge_id').value = c.id;
+                    document.getElementById('title').value = c.title;
+                    document.getElementById('category').value = c.category;
+                    document.getElementById('description').value = c.description;
+                    document.getElementById('flag').value = c.flag;
+                    document.getElementById('points').value = c.points;
+                });
+        }
+
+        function toggleChallenge(id, current) {
+            fetch('php/admin_toggle_challenge.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${id}&active=${current}`
+            }).then(res => res.text())
+                .then(data => {
+                    alert(data);
+                    loadChallenges();
+                });
+        }
+
+        // File upload
+        function loadFileChallenges() {
+            fetch('php/admin_get_challenges.php')
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById('fileChallenge');
+                    select.innerHTML = '';
+                    data.forEach(c => {
+                        select.innerHTML += `<option value="${c.id}">${c.title}</option>`;
+                    });
+                });
+        }
+
+        function loadFiles() {
+            fetch('php/admin_get_files.php')
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector('#filesTable tbody');
+                    tbody.innerHTML = '';
+                    data.forEach(f => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${f.id}</td>
+                                <td>${f.challenge_title}</td>
+                                <td>${f.filename}</td>
+                                <td><a href="uploads/${f.filename}" target="_blank">Download</a></td>
+                                <td>${f.uploaded_at}</td>
+                            </tr>
+                        `;
+                    });
+                });
+        }
+
+        document.getElementById('fileUploadForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('challenge_id', document.getElementById('fileChallenge').value);
+            formData.append('file', document.getElementById('fileInput').files[0]);
+
+            fetch('php/admin_upload_file.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.text())
+                .then(data => {
+                    alert(data);
+                    document.getElementById('fileUploadForm').reset();
+                    loadFiles();
+                });
+        });
+
+        // Initial load
+        loadChallenges();
+        loadSubmissions();
+        loadFiles();
+    </script>
+</body>
+
+</html>

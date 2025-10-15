@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -201,4 +202,209 @@
   </script>
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CTF Leaderboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #fff;
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 95%;
+      max-width: 1200px;
+      background: rgba(30, 41, 59, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+      padding: 40px 50px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    h2 {
+      color: #38bdf8;
+      font-size: 2rem;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 auto;
+      margin-bottom: 50px;
+      background-color: #0f172a;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 15px;
+      text-align: center;
+      border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+      font-size: 1rem;
+    }
+
+    th {
+      background-color: #1e293b;
+      color: #38bdf8;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background-color: rgba(56, 189, 248, 0.15);
+    }
+
+    .charts {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    canvas {
+      background: #0f172a;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      flex: 1 1 45%;
+      min-width: 400px;
+      max-width: 550px;
+      height: 300px !important;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 40px;
+      background: #38bdf8;
+      color: #0f172a;
+      text-decoration: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      background: #0ea5e9;
+      transform: scale(1.05);
+      color: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>🏆 CTF Leaderboard</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Total Points</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard"></tbody>
+    </table>
+
+    <div class="charts">
+      <canvas id="barChart"></canvas>
+      <canvas id="pieChart"></canvas>
+    </div>
+
+    <a href="admin_panel.html">⬅ Back to Dashboard</a>
+  </div>
+
+  <script>
+    fetch("php/leaderboard.php")
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.getElementById("leaderboard");
+        const usernames = [];
+        const points = [];
+
+        data.forEach(row => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `<td>${row.username}</td><td>${row.total_points}</td>`;
+          tbody.appendChild(tr);
+
+          usernames.push(row.username);
+          points.push(parseInt(row.total_points));
+        });
+
+        // 🎯 Bar Chart
+        new Chart(document.getElementById("barChart"), {
+          type: "bar",
+          data: {
+            labels: usernames,
+            datasets: [{
+              label: "Player Scores",
+              data: points,
+              backgroundColor: "rgba(56, 189, 248, 0.5)",
+              borderColor: "#38bdf8",
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: "Top Player Scores", color: "#38bdf8" }
+            },
+            scales: {
+              x: { ticks: { color: "#fff" } },
+              y: { ticks: { color: "#fff" }, beginAtZero: true }
+            }
+          }
+        });
+
+        // 🥧 Pie Chart
+        new Chart(document.getElementById("pieChart"), {
+          type: "pie",
+          data: {
+            labels: usernames,
+            datasets: [{
+              data: points,
+              backgroundColor: [
+                "#3b82f6", "#06b6d4", "#14b8a6", "#f59e0b",
+                "#ef4444", "#8b5cf6", "#22c55e", "#ec4899"
+              ],
+              borderColor: "#0f172a",
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              title: { display: true, text: "Points Distribution", color: "#38bdf8" },
+              legend: { labels: { color: "#fff" } }
+            }
+          }
+        });
+      });
+  </script>
+</body>
+
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b
 </html>

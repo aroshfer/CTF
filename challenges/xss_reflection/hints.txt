@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 1) If <script> doesn't work, try event handlers in other tags (img/svg/iframe).
 2) Try breaking out of attributes or using URI schemes.
+=======
+1) If <script> doesn't work, try event handlers in other tags (img/svg/iframe).
+2) Try breaking out of attributes or using URI schemes.
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b
 3) If you can make the page navigate to a URL containing a payload, you can use history.pushState to reflect it — the challenge already does this for you via the form.

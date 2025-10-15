@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 
@@ -130,4 +131,129 @@
 
 </body>
 
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTF Admin Login</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Additional clean styling for admin login */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            margin: 0;
+        }
+
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 50px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #00d4ff;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            background-color: #1e293b;
+            color: white;
+            font-size: 14px;
+        }
+
+        input::placeholder {
+            color: #9ca3af;
+        }
+
+        .login-btn {
+            background: #00d4ff;
+            color: #111827;
+            border: none;
+            padding: 12px 20px;
+            width: 95%;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background: #38bdf8;
+            transform: scale(1.05);
+        }
+
+        .error {
+            color: #f87171;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .success {
+            color: #4ade80;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm" action="../php/admin_login.php" method="POST">
+            <input type="text" name="username" placeholder="Admin Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <button type="submit" class="login-btn">Login</button>
+            <div id="message"></div>
+        </form>
+    </div>
+
+    <script>
+        // Optional: AJAX-based login (can be removed if using PHP form POST redirect)
+        const form = document.getElementById("adminLoginForm");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch("../php/admin_login.php", {
+                method: "POST",
+                body: formData
+            });
+            const result = await response.text();
+            const msg = document.getElementById("message");
+            if (result.includes("success")) {
+                msg.className = "success";
+                msg.textContent = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "admin_panel.html";
+                }, 1200);
+            } else {
+                msg.className = "error";
+                msg.textContent = "Invalid credentials!";
+            }
+        });
+    </script>
+</body>
+
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b
 </html>

@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 Hint 1: Research "MD5 collision examples".
 Hint 2: Try using pre-computed collision samples like those from 'hashclash' or 'RFC 4270'.
 Hint 3: MD5 is considered broken for a reason 😉
+=======
+Hint 1: Research "MD5 collision examples".
+Hint 2: Try using pre-computed collision samples like those from 'hashclash' or 'RFC 4270'.
+Hint 3: MD5 is considered broken for a reason 😉
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b

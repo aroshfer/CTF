@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <p class="hint">Client-side reflection: this page reflects the <code>q</code> query parameter into the page. Try
     injecting with event handlers, image/svg, or attribute escapes.</p>
@@ -68,4 +69,76 @@
 
 </body>
 
+=======
+<!doctype html>
+<p class="hint">Client-side reflection: this page reflects the <code>q</code> query parameter into the page. Try
+    injecting with event handlers, image/svg, or attribute escapes.</p>
+
+
+<form id="searchForm" action="" method="GET">
+    <label for="q">Search</label>
+    <input id="q" name="q" placeholder="try: &lt;script&gt;alert(1)&lt;/script&gt;" value="">
+    <button type="submit">Search</button>
+</form>
+
+
+<div class="output" id="results">
+    <strong>Results for:</strong>
+    <div id="reflected">(no query)</div>
+</div>
+
+
+<hr>
+<p>Submit the flag once you trigger the alert or demonstrate DOM control. The flag format is <code>FLAG{...}</code>.</p>
+</div>
+
+
+<script>
+    // Safer reflection script with defensive checks and helpful console warnings
+    function getQueryParam(name) {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name);
+        } catch (e) { console.warn('getQueryParam error', e); return null }
+    }
+
+    function render() {
+        const q = getQueryParam('q');
+        const out = document.getElementById('reflected');
+        if (!out) { console.warn('Missing #reflected element in DOM'); return }
+        if (!q) { out.textContent = '(no query)'; return }
+
+        // VULNERABLE on purpose for the challenge: directly writing user input into innerHTML
+        out.innerHTML = q;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Defensive lookups — if an element is missing we log and avoid calling addEventListener on null
+        const qInput = document.getElementById('q');
+        if (!qInput) console.warn('Missing input with id="q"');
+        else qInput.value = getQueryParam('q') || '';
+
+        const searchForm = document.getElementById('searchForm');
+        if (!searchForm) {
+            console.error('Missing form with id="searchForm" — cannot attach submit handler');
+            // still attempt to render if possible
+            render();
+            return;
+        }
+
+        render();
+
+        searchForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const v = (qInput && qInput.value) ? qInput.value : '';
+            const newUrl = location.pathname + '?q=' + encodeURIComponent(v);
+            history.pushState(null, '', newUrl);
+            render();
+        });
+    });
+</script>
+
+</body>
+
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b
 </html>

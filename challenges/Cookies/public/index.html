@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,4 +42,49 @@ input { padding:8px; width:70%; border-radius:6px }
 </ul>
 </p>
 </div>
+=======
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Capture the Cookie</title>
+<style>
+body { background:#0f1724; color:#e6eef8; font-family:system-ui,Segoe UI,Roboto,Arial; display:flex; min-height:100vh; align-items:center; justify-content:center }
+.card { background:#111827; padding:28px; border-radius:12px; width:720px }
+button,a { background:#0ea5a4; color:#032; padding:8px 12px; border-radius:6px; text-decoration:none; border:none }
+form { margin-top:18px }
+input { padding:8px; width:70%; border-radius:6px }
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Capture the Cookie</h1>
+<p>We will set a cookie for you that contains an encoded payload. Your mission: capture the cookie value, decode it and submit the flag below.</p>
+
+
+<p><a href="/set">Set Cookie (Start Challenge)</a></p>
+
+
+<hr />
+
+
+<p><strong>Flag submission:</strong></p>
+<form method="POST" action="/submit">
+<input name="flag" placeholder="Enter flag here (e.g. FLAG{...})" required />
+<button type="submit">Submit</button>
+</form>
+
+
+<hr />
+
+
+<p><strong>Hints:</strong>
+<ul>
+<li>HttpOnly cookies are not accessible via <code>document.cookie</code>, but you can still view them using browser devtools (Network response headers or Application &gt; Cookies).</li>
+<li>The cookie value is Base64 encoded. Try decoding it.</li>
+</ul>
+</p>
+</div>
+>>>>>>> 6cd235d1aad7beabbda8b99226829b9b92fef45b
 </body>
